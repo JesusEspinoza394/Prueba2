@@ -9,13 +9,13 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class Usuario(db.Model):
-    __tablename__ = "usuarios"
+class Alimentos_R(db.Model):
+    __tablename__ = "Alimentos_Refrigerados"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), nullable=False, unique=True)
-    edad = db.Column(db.Integer, nullable=True)
+    alimento_especifico = db.Column(db.String(100), nullable=False)
+    temperatura = db.Column(db.Double, nullable=False, unique=True)
+    rango = db.Column(db.String(100), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
@@ -23,8 +23,8 @@ class Usuario(db.Model):
         devolverlo como JSON en las respuestas de la API."""
         return {
             "id": self.id,
-            "nombre": self.nombre,
-            "email": self.email,
-            "edad": self.edad,
+            "alimento_especifico": self.alimento_especifico,
+            "temperatura": self.temperatura,
+            "rango": self.rango,
             "fecha_creacion": self.fecha_creacion.isoformat() if self.fecha_creacion else None,
         }
