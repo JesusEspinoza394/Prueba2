@@ -5,7 +5,7 @@ from flask import Flask, jsonify
 
 from config import Config
 from models import db
-from routes import usuarios_bp
+from routes import usuarios_bp, alimentos_bp
 
 # 1. Crear la aplicación Flask
 app = Flask(__name__)
@@ -19,7 +19,10 @@ db.init_app(app)
 # 4. Registrar las rutas de usuarios (routes.py) en la app
 app.register_blueprint(usuarios_bp)
 
-# 5. Crear la tabla "usuarios" en la base de datos si no existe todavía
+# 5. Registrar las rutas de alimentos (routes.py) en la app
+app.register_blueprint(alimentos_bp)
+
+# 6. Crear las tablas en la base de datos si no existen todavía
 with app.app_context():
     db.create_all()
 
@@ -28,13 +31,22 @@ with app.app_context():
 def inicio():
     """Ruta raíz: muestra qué endpoints existen."""
     return jsonify({
-        "mensaje": "API CRUD de Usuarios (Flask + PostgreSQL/Neon)",
+        "mensaje": "API CRUD de Usuarios y Alimentos Refrigerados (Flask + PostgreSQL/Neon)",
         "endpoints": {
-            "GET /Alimentos_R": "Lista todos los usuarios",
-            "GET /Alimentos_R/<id>": "Obtiene un usuario por su id",
-            "POST /Alimentos_R": "Crea un nuevo usuario",
-            "PUT /Alimentos_R/<id>": "Actualiza un usuario existente",
-            "DELETE /Alimentos_R/<id>": "Elimina un usuario",
+            "USUARIOS": {
+                "GET /usuarios": "Lista todos los usuarios",
+                "GET /usuarios/<id>": "Obtiene un usuario por su id",
+                "POST /usuarios": "Crea un nuevo usuario",
+                "PUT /usuarios/<id>": "Actualiza un usuario existente",
+                "DELETE /usuarios/<id>": "Elimina un usuario",
+            },
+            "ALIMENTOS": {
+                "GET /alimentos": "Lista todos los alimentos refrigerados",
+                "GET /alimentos/<id>": "Obtiene un alimento por su id",
+                "POST /alimentos": "Crea un nuevo alimento",
+                "PUT /alimentos/<id>": "Actualiza un alimento existente",
+                "DELETE /alimentos/<id>": "Elimina un alimento",
+            },
         },
     })
 
