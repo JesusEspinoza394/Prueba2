@@ -147,6 +147,32 @@ curl -X DELETE http://127.0.0.1:5001/usuarios/1
 | PUT    | `/usuarios/<id>`  | Actualiza un usuario existente  |
 | DELETE | `/usuarios/<id>`  | Elimina un usuario              |
 
+## Endpoints de Alimentos
+
+| Método | Ruta                               | ¿Qué hace?                         |
+|--------|------------------------------------|-------------------------------------|
+| GET    | `/alimentos`                       | Lista todos los alimentos refrigerados |
+| GET    | `/alimentos/<id>`                  | Obtiene un alimento refrigerado por id  |
+| POST   | `/alimentos`                       | Crea un nuevo alimento refrigerado       |
+| PUT    | `/alimentos/<id>`                  | Actualiza un alimento refrigerado         |
+| DELETE | `/alimentos/<id>`                  | Elimina un alimento refrigerado           |
+
+| Método | Ruta                               | ¿Qué hace?                         |
+|--------|------------------------------------|-------------------------------------|
+| GET    | `/alimentos_verduras`              | Lista todos los alimentos verduras    |
+| GET    | `/alimentos_verduras/<id>`         | Obtiene un alimento verduras por id   |
+| POST   | `/alimentos_verduras`              | Crea un nuevo alimento verduras       |
+| PUT    | `/alimentos_verduras/<id>`         | Actualiza un alimento verduras        |
+| DELETE | `/alimentos_verduras/<id>`         | Elimina un alimento verduras          |
+
+| Método | Ruta                                   | ¿Qué hace?                         |
+|--------|----------------------------------------|-------------------------------------|
+| GET    | `/alimentos_congelados`                | Lista todos los alimentos congelados |
+| GET    | `/alimentos_congelados/<id>`           | Obtiene un alimento congelado por id  |
+| POST   | `/alimentos_congelados`                | Crea un nuevo alimento congelado       |
+| PUT    | `/alimentos_congelados/<id>`           | Actualiza un alimento congelado         |
+| DELETE | `/alimentos_congelados/<id>`           | Elimina un alimento congelado           |
+
 ## 8. Códigos de respuesta que vas a ver
 
 | Código | Significado                                              |
