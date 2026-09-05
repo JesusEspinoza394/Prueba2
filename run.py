@@ -30,11 +30,11 @@ def inicio():
     return jsonify({
         "mensaje": "API CRUD de Usuarios (Flask + PostgreSQL/Neon)",
         "endpoints": {
-            "GET /usuarios": "Lista todos los usuarios",
-            "GET /usuarios/<id>": "Obtiene un usuario por su id",
-            "POST /usuarios": "Crea un nuevo usuario",
-            "PUT /usuarios/<id>": "Actualiza un usuario existente",
-            "DELETE /usuarios/<id>": "Elimina un usuario",
+            "GET /Alimentos_R": "Lista todos los usuarios",
+            "GET /Alimentos_R/<id>": "Obtiene un usuario por su id",
+            "POST /Alimentos_R": "Crea un nuevo usuario",
+            "PUT /Alimentos_R/<id>": "Actualiza un usuario existente",
+            "DELETE /Alimentos_R/<id>": "Elimina un usuario",
         },
     })
 
