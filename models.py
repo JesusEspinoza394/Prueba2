@@ -20,8 +20,6 @@ class Usuario(db.Model):
     fecha_creacion = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
-        """Convierte el objeto Usuario en un diccionario, para poder
-        devolverlo como JSON en las respuestas de la API."""
         return {
             "id": self.id,
             "nombre": self.nombre,
@@ -33,17 +31,15 @@ class Usuario(db.Model):
 
 class Alimentos_R(db.Model):
     """Tabla de alimentos refrigerados."""
-    __tablename__ = "Alimentos_Refrigerados"
+    __tablename__ = "alimentos_refrigerados"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     alimento_especifico = db.Column(db.String(100), nullable=False)
-    temperatura = db.Column(db.Float, nullable=False, unique=True)
+    temperatura = db.Column(db.Float, nullable=False)  # removed unique=True
     rango = db.Column(db.String(100), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
-        """Convierte el objeto Alimentos_R en un diccionario, para poder
-        devolverlo como JSON en las respuestas de la API."""
         return {
             "id": self.id,
             "alimento_especifico": self.alimento_especifico,
@@ -55,17 +51,15 @@ class Alimentos_R(db.Model):
 
 class Alimentos_PR(db.Model):
     """Tabla de alimentos perecederos."""
-    __tablename__ = "Alimentos_perecederos"
+    __tablename__ = "alimentos_perecederos"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     alimento_especifico = db.Column(db.String(100), nullable=False)
-    temperatura = db.Column(db.Float, nullable=False, unique=True)
+    temperatura = db.Column(db.Float, nullable=False)  # removed unique=True
     rango = db.Column(db.String(100), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
-        """Convierte el objeto Alimentos_PR en un diccionario, para poder
-        devolverlo como JSON en las respuestas de la API."""
         return {
             "id": self.id,
             "alimento_especifico": self.alimento_especifico,
@@ -77,17 +71,15 @@ class Alimentos_PR(db.Model):
 
 class Alimentos_PC(db.Model):
     """Tabla de alimentos perecibles."""
-    __tablename__ = "Alimentos perecibles"
+    __tablename__ = "alimentos_perecibles"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     alimento_especifico = db.Column(db.String(100), nullable=False)
-    temperatura = db.Column(db.Float, nullable=False, unique=True)
+    temperatura = db.Column(db.Float, nullable=False)  # removed unique=True
     rango = db.Column(db.String(100), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
-        """Convierte el objeto Alimentos_PC en un diccionario, para poder
-        devolverlo como JSON en las respuestas de la API."""
         return {
             "id": self.id,
             "alimento_especifico": self.alimento_especifico,
