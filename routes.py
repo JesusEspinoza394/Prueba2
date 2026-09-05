@@ -2,7 +2,7 @@
 # routes.py — Los endpoints de la API: qué pasa cuando llega cada petición
 # ============================================================================
 from flask import Blueprint, request, jsonify
-from models import db, Usuario, Alimentos_R, Alimentos_PR, Alimentos_PC
+from models import db, Usuario, Alimentos_R, Alimentos_Verduras, Alimentos_Congelados
 
 # Un Blueprint agrupa un conjunto de rutas relacionadas (aquí, todas las
 # de usuarios) para luego "engancharlas" a la app principal en run.py.
@@ -11,11 +11,11 @@ usuarios_bp = Blueprint("usuarios", __name__)
 # Blueprint para Alimentos_R
 alimentos_bp = Blueprint("alimentos", __name__)
 
-# Blueprint para Alimentos_PR
-alimentos_pr_bp = Blueprint("alimentos_pr", __name__)
+# Blueprint para Alimentos_Verduras (antes: alimentos_pr)
+alimentos_verduras_bp = Blueprint("alimentos_verduras", __name__)
 
-# Blueprint para Alimentos_PC
-alimentos_pc_bp = Blueprint("alimentos_pc", __name__)
+# Blueprint para Alimentos_Congelados (antes: alimentos_pc)
+alimentos_congelados_bp = Blueprint("alimentos_congelados", __name__)
 
 
 # ============================================================================
@@ -155,31 +155,31 @@ def eliminar_alimento(alimento_id):
 
 
 # ============================================================================
-# ENDPOINTS DE ALIMENTOS_PR (perecederos)
+# ENDPOINTS DE ALIMENTOS_VERDURAS (antes: alimentos_pr / perecederos)
 # ============================================================================
 
-@alimentos_pr_bp.route("/alimentos_pr", methods=["GET"])
-def listar_alimentos_pr():
-    """GET /alimentos_pr → devuelve todos los alimentos perecederos."""
-    alimentos = Alimentos_PR.query.all()
+@alimentos_verduras_bp.route("/alimentos_verduras", methods=["GET"])
+def listar_alimentos_verduras():
+    """GET /alimentos_verduras → devuelve todos los alimentos verduras."""
+    alimentos = Alimentos_Verduras.query.all()
     return jsonify([a.to_dict() for a in alimentos])
 
 
-@alimentos_pr_bp.route("/alimentos_pr/<int:alimento_id>", methods=["GET"])
-def buscar_alimento_pr(alimento_id):
-    """GET /alimentos_pr/5 → busca y devuelve un alimento perecedero por id."""
-    alimento = db.session.get(Alimentos_PR, alimento_id)
+@alimentos_verduras_bp.route("/alimentos_verduras/<int:alimento_id>", methods=["GET"])
+def buscar_alimento_verduras(alimento_id):
+    """GET /alimentos_verduras/5 → busca y devuelve un alimento verduras por id."""
+    alimento = db.session.get(Alimentos_Verduras, alimento_id)
     if alimento is None:
         return jsonify({"error": "Alimento no encontrado."}), 404
     return jsonify(alimento.to_dict())
 
 
-@alimentos_pr_bp.route("/alimentos_pr", methods=["POST"])
-def agregar_alimento_pr():
-    """POST /alimentos_pr → agrega un alimento perecedero nuevo."""
+@alimentos_verduras_bp.route("/alimentos_verduras", methods=["POST"])
+def agregar_alimento_verduras():
+    """POST /alimentos_verduras → agrega un alimento verduras nuevo."""
     datos = request.get_json()
 
-    nuevo_alimento = Alimentos_PR(
+    nuevo_alimento = Alimentos_Verduras(
         alimento_especifico=datos["alimento_especifico"],
         temperatura=datos["temperatura"],
         rango=datos.get("rango"),
@@ -191,10 +191,10 @@ def agregar_alimento_pr():
     return jsonify(nuevo_alimento.to_dict()), 201
 
 
-@alimentos_pr_bp.route("/alimentos_pr/<int:alimento_id>", methods=["PUT"])
-def editar_alimento_pr(alimento_id):
-    """PUT /alimentos_pr/5 → edita un alimento perecedero existente."""
-    alimento = db.session.get(Alimentos_PR, alimento_id)
+@alimentos_verduras_bp.route("/alimentos_verduras/<int:alimento_id>", methods=["PUT"])
+def editar_alimento_verduras(alimento_id):
+    """PUT /alimentos_verduras/5 → edita un alimento verduras existente."""
+    alimento = db.session.get(Alimentos_Verduras, alimento_id)
     if alimento is None:
         return jsonify({"error": "Alimento no encontrado."}), 404
 
@@ -209,10 +209,10 @@ def editar_alimento_pr(alimento_id):
     return jsonify(alimento.to_dict())
 
 
-@alimentos_pr_bp.route("/alimentos_pr/<int:alimento_id>", methods=["DELETE"])
-def eliminar_alimento_pr(alimento_id):
-    """DELETE /alimentos_pr/5 → elimina un alimento perecedero."""
-    alimento = db.session.get(Alimentos_PR, alimento_id)
+@alimentos_verduras_bp.route("/alimentos_verduras/<int:alimento_id>", methods=["DELETE"])
+def eliminar_alimento_verduras(alimento_id):
+    """DELETE /alimentos_verduras/5 → elimina un alimento verduras."""
+    alimento = db.session.get(Alimentos_Verduras, alimento_id)
     if alimento is None:
         return jsonify({"error": "Alimento no encontrado."}), 404
 
@@ -223,31 +223,31 @@ def eliminar_alimento_pr(alimento_id):
 
 
 # ============================================================================
-# ENDPOINTS DE ALIMENTOS_PC (perecibles)
+# ENDPOINTS DE ALIMENTOS_CONGELADOS (antes: alimentos_pc / perecibles)
 # ============================================================================
 
-@alimentos_pc_bp.route("/alimentos_pc", methods=["GET"])
-def listar_alimentos_pc():
-    """GET /alimentos_pc → devuelve todos los alimentos perecibles."""
-    alimentos = Alimentos_PC.query.all()
+@alimentos_congelados_bp.route("/alimentos_congelados", methods=["GET"])
+def listar_alimentos_congelados():
+    """GET /alimentos_congelados → devuelve todos los alimentos congelados."""
+    alimentos = Alimentos_Congelados.query.all()
     return jsonify([a.to_dict() for a in alimentos])
 
 
-@alimentos_pc_bp.route("/alimentos_pc/<int:alimento_id>", methods=["GET"])
-def buscar_alimento_pc(alimento_id):
-    """GET /alimentos_pc/5 → busca y devuelve un alimento perecible por id."""
-    alimento = db.session.get(Alimentos_PC, alimento_id)
+@alimentos_congelados_bp.route("/alimentos_congelados/<int:alimento_id>", methods=["GET"])
+def buscar_alimento_congelados(alimento_id):
+    """GET /alimentos_congelados/5 → busca y devuelve un alimento congelado por id."""
+    alimento = db.session.get(Alimentos_Congelados, alimento_id)
     if alimento is None:
         return jsonify({"error": "Alimento no encontrado."}), 404
     return jsonify(alimento.to_dict())
 
 
-@alimentos_pc_bp.route("/alimentos_pc", methods=["POST"])
-def agregar_alimento_pc():
-    """POST /alimentos_pc → agrega un alimento perecible nuevo."""
+@alimentos_congelados_bp.route("/alimentos_congelados", methods=["POST"])
+def agregar_alimento_congelados():
+    """POST /alimentos_congelados → agrega un alimento congelado nuevo."""
     datos = request.get_json()
 
-    nuevo_alimento = Alimentos_PC(
+    nuevo_alimento = Alimentos_Congelados(
         alimento_especifico=datos["alimento_especifico"],
         temperatura=datos["temperatura"],
         rango=datos.get("rango"),
@@ -259,10 +259,10 @@ def agregar_alimento_pc():
     return jsonify(nuevo_alimento.to_dict()), 201
 
 
-@alimentos_pc_bp.route("/alimentos_pc/<int:alimento_id>", methods=["PUT"])
-def editar_alimento_pc(alimento_id):
-    """PUT /alimentos_pc/5 → edita un alimento perecible existente."""
-    alimento = db.session.get(Alimentos_PC, alimento_id)
+@alimentos_congelados_bp.route("/alimentos_congelados/<int:alimento_id>", methods=["PUT"])
+def editar_alimento_congelados(alimento_id):
+    """PUT /alimentos_congelados/5 → edita un alimento congelado existente."""
+    alimento = db.session.get(Alimentos_Congelados, alimento_id)
     if alimento is None:
         return jsonify({"error": "Alimento no encontrado."}), 404
 
@@ -277,10 +277,10 @@ def editar_alimento_pc(alimento_id):
     return jsonify(alimento.to_dict())
 
 
-@alimentos_pc_bp.route("/alimentos_pc/<int:alimento_id>", methods=["DELETE"])
-def eliminar_alimento_pc(alimento_id):
-    """DELETE /alimentos_pc/5 → elimina un alimento perecible."""
-    alimento = db.session.get(Alimentos_PC, alimento_id)
+@alimentos_congelados_bp.route("/alimentos_congelados/<int:alimento_id>", methods=["DELETE"])
+def eliminar_alimento_congelados(alimento_id):
+    """DELETE /alimentos_congelados/5 → elimina un alimento congelado."""
+    alimento = db.session.get(Alimentos_Congelados, alimento_id)
     if alimento is None:
         return jsonify({"error": "Alimento no encontrado."}), 404
 
