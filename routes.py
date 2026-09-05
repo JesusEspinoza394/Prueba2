@@ -2,12 +2,19 @@
 # routes.py — Los endpoints de la API: qué pasa cuando llega cada petición
 # ============================================================================
 from flask import Blueprint, request, jsonify
-from models import db, Usuario
+from models import db, Usuario, Alimentos_R
 
 # Un Blueprint agrupa un conjunto de rutas relacionadas (aquí, todas las
 # de usuarios) para luego "engancharlas" a la app principal en run.py.
 usuarios_bp = Blueprint("usuarios", __name__)
 
+# Blueprint para Alimentos_R
+alimentos_bp = Blueprint("alimentos", __name__)
+
+
+# ============================================================================
+# ENDPOINTS DE USUARIOS
+# ============================================================================
 
 @usuarios_bp.route("/usuarios", methods=["GET"])
 def listar_usuarios():
@@ -71,3 +78,71 @@ def eliminar_usuario(usuario_id):
     db.session.commit()
 
     return jsonify({"mensaje": "Usuario eliminado correctamente."})
+
+
+# ============================================================================
+# ENDPOINTS DE ALIMENTOS_R
+# ============================================================================
+
+@alimentos_bp.route("/alimentos", methods=["GET"])
+def listar_alimentos():
+    """GET /alimentos → devuelve todos los alimentos refrigerados."""
+    alimentos = Alimentos_R.query.all()
+    return jsonify([a.to_dict() for a in alimentos])
+
+
+@alimentos_bp.route("/alimentos/<int:alimento_id>", methods=["GET"])
+def buscar_alimento(alimento_id):
+    """GET /alimentos/5 → busca y devuelve un solo alimento por id."""
+    alimento = db.session.get(Alimentos_R, alimento_id)
+    if alimento is None:
+        return jsonify({"error": "Alimento no encontrado."}), 404
+    return jsonify(alimento.to_dict())
+
+
+@alimentos_bp.route("/alimentos", methods=["POST"])
+def agregar_alimento():
+    """POST /alimentos → agrega un alimento nuevo."""
+    datos = request.get_json()
+
+    nuevo_alimento = Alimentos_R(
+        alimento_especifico=datos["alimento_especifico"],
+        temperatura=datos["temperatura"],
+        rango=datos.get("rango"),
+    )
+
+    db.session.add(nuevo_alimento)
+    db.session.commit()
+
+    return jsonify(nuevo_alimento.to_dict()), 201
+
+
+@alimentos_bp.route("/alimentos/<int:alimento_id>", methods=["PUT"])
+def editar_alimento(alimento_id):
+    """PUT /alimentos/5 → edita los datos de un alimento existente."""
+    alimento = db.session.get(Alimentos_R, alimento_id)
+    if alimento is None:
+        return jsonify({"error": "Alimento no encontrado."}), 404
+
+    datos = request.get_json()
+
+    alimento.alimento_especifico = datos.get("alimento_especifico", alimento.alimento_especifico)
+    alimento.temperatura = datos.get("temperatura", alimento.temperatura)
+    alimento.rango = datos.get("rango", alimento.rango)
+
+    db.session.commit()
+
+    return jsonify(alimento.to_dict())
+
+
+@alimentos_bp.route("/alimentos/<int:alimento_id>", methods=["DELETE"])
+def eliminar_alimento(alimento_id):
+    """DELETE /alimentos/5 → elimina un alimento."""
+    alimento = db.session.get(Alimentos_R, alimento_id)
+    if alimento is None:
+        return jsonify({"error": "Alimento no encontrado."}), 404
+
+    db.session.delete(alimento)
+    db.session.commit()
+
+    return jsonify({"mensaje": "Alimento eliminado correctamente."})
