@@ -49,9 +49,9 @@ class Alimentos_R(db.Model):
         }
 
 
-class Alimentos_PR(db.Model):
-    """Tabla de alimentos perecederos."""
-    __tablename__ = "alimentos_perecederos"
+class Alimentos_Verduras(db.Model):
+    """Tabla de alimentos verduras (antes: perecederos)."""
+    __tablename__ = "alimentos_verduras"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     alimento_especifico = db.Column(db.String(100), nullable=False)
@@ -69,9 +69,9 @@ class Alimentos_PR(db.Model):
         }
 
 
-class Alimentos_PC(db.Model):
-    """Tabla de alimentos perecibles."""
-    __tablename__ = "alimentos_perecibles"
+class Alimentos_Congelados(db.Model):
+    """Tabla de alimentos congelados (antes: perecibles)."""
+    __tablename__ = "alimentos_congelados"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     alimento_especifico = db.Column(db.String(100), nullable=False)
